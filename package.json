@@ -1,0 +1,23 @@
+{
+  "name": "viral-share",
+  "version": "1.0.0",
+  "description": "post viral share",
+  "main": "./dist/app.js",
+  "scripts": {
+    "start": "./dist/app.js",
+    "dev": "nodemon --config nodemon.json src/app.ts"
+  },
+  "author": "Jude Iwuji",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-handlebars": "^6.0.0",
+    "@types/node": "^17.0.21",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
+}

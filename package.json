@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "post viral share",
   "main": "./dist/app.js",
+  "engines": {
+    "node": "14.18.1"
+  },
   "scripts": {
     "start": "./dist/app.js",
     "dev": "nodemon --config nodemon.json src/app.ts"

@@ -4,10 +4,11 @@
   "description": "post viral share",
   "main": "./dist/app.js",
   "engines": {
-    "node": "14.18.1"
+    "node": "14.18.1",
+    "npm": "6.14.15"
   },
   "scripts": {
-    "start": "./dist/app.js",
+    "start": "node ./dist/app.js",
     "dev": "nodemon --config nodemon.json src/app.ts"
   },
   "author": "Jude Iwuji",

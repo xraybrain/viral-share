@@ -259,25 +259,26 @@ var VR_Share = (function () {
         `toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=${width},height=${height},top=${y},left=${x}`
       );
 
-      if (!tab) {
-        alert("Please disable your popup blocker and try again.");
+      if (!tab && model.isMobile) {
+        // alert("Please disable your popup blocker and try again.");
+        VR_Share.trackShare();
       }
-      tab.onerror = () => console.log("error");
       return tab;
     }
 
     function handleClose(tab) {
-      // tab.document.onreadystatechange = (state) => console.log(state);
-      var parentWindow = tab.opener;
-      var intervalID = setInterval(function () {
-        if (tab.closed) {
-          clearInterval(intervalID);
-          if (!parentWindow.closed) {
-            showToaster("Shared!", 3000);
-            parentWindow.VR_Share.trackShare();
+      if (tab) {
+        var parentWindow = tab.opener;
+        var intervalID = setInterval(function () {
+          if (tab.closed) {
+            clearInterval(intervalID);
+            if (!parentWindow.closed) {
+              showToaster("Shared!", 3000);
+              parentWindow.VR_Share.trackShare();
+            }
           }
-        }
-      }, 1000);
+        }, 1000);
+      }
     }
 
     function shareOnWhatsApp() {

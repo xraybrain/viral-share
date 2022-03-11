@@ -109,6 +109,9 @@ div {
 }
 
 @media screen and (max-width: 595px) {
+  .hero-text h5 {
+    font-size: 1.6rem;
+  }
   .client-section {
     width: 100%;
   }

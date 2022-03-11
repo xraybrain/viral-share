@@ -18,7 +18,7 @@ body {
   position: relative;
   width: 100%;
   height: 65vh;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.85)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.95)),
     url(../imgs/bg.webp);
   background-position: center;
   background-size: cover;
@@ -45,4 +45,71 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.heading {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #333 !important;
+}
+
+.wrapper {
+  padding: 0.75rem;
+  min-height: 50vh;
+  width: 100%;
+}
+
+.client-section {
+  width: 30em;
+  margin: 0px auto;
+}
+
+.rounded {
+  border-radius: 0.75rem !important;
+}
+
+div {
+  word-break: break-all;
+}
+
+.toaster-panel {
+  position: fixed;
+  display: block;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 8em;
+  background-color: #333;
+  color: #fff;
+  margin: 0.33rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 0 0.55rem #333;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.toaster-panel:hover {
+  box-shadow: 0 0 0.55rem #000;
+}
+.toaster-body {
+  display: block;
+  padding: 1rem 0.33rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.toaster-panel.hide {
+  transform: translateY(100px);
+}
+
+.alert-body {
+  font-size: 0.9rem;
+}
+
+@media screen and (max-width: 595px) {
+  .client-section {
+    width: 100%;
+  }
 }

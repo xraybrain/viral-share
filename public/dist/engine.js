@@ -19,6 +19,7 @@ var VR_Share = (function () {
       shareUrl: null,
       maxShare: 5,
       isValid: false,
+      postBtnText: "Go to post",
     };
   })();
 
@@ -128,11 +129,6 @@ var VR_Share = (function () {
   })(Model);
 
   var Controller = (function (model, service) {
-    var btnOptions = {
-      share: "Share Post",
-      post: "Go to post",
-    };
-
     function runApp() {
       if (service.isExpiredSession()) service.deleteShareCount();
       createStyles();
@@ -172,7 +168,7 @@ var VR_Share = (function () {
         "vr-my-1"
       );
       postBtn.id = "vr-post-btn";
-      postBtn.textContent = btnOptions.post;
+      postBtn.textContent = model.postBtnText;
       postBtn.classList.add("vr-share-btn", "vr-btn-block");
       postBtn.disabled = true;
       progressBar.classList.add("vr-progress-bar", "vr-my");
@@ -313,6 +309,7 @@ var VR_Share = (function () {
     Model.maxShare = config.maxShare || 5;
     Model.shareUrl = config.shareUrl;
     Model.postUrl = config.postUrl;
+    Model.postBtnText = config.postBtnText || Model.postBtnText;
 
     if (Service.validateApp()) Controller.runApp();
   }

@@ -24,7 +24,7 @@ var VR_Share = (function () {
 
   var Service = (function (model) {
     var DB_TOKEN = document.location.href;
-    var DB_Schema = { count: 1 };
+    var DB_Schema = { count: 1, time: Date.now() };
     function updateShareCount() {
       var DB = JSON.parse(localStorage.getItem(DB_TOKEN));
       if (DB) {
@@ -37,6 +37,10 @@ var VR_Share = (function () {
     function getShareCount() {
       var DB = JSON.parse(localStorage.getItem(DB_TOKEN));
       return DB ? DB.count : 0;
+    }
+    function getShareTime() {
+      var DB = JSON.parse(localStorage.getItem(DB_TOKEN));
+      return DB ? DB.time || 0 : 0;
     }
     function deleteShareCount() {
       localStorage.removeItem(DB_TOKEN);
@@ -78,6 +82,12 @@ var VR_Share = (function () {
       return decoded;
     }
 
+    function isExpiredSession() {
+      var dayInMilis = 86400000;
+      var shareTime = getShareTime();
+      return Date.now() - shareTime > dayInMilis;
+    }
+
     function canViewPost() {
       return getShareCount() === model.maxShare;
     }
@@ -106,12 +116,14 @@ var VR_Share = (function () {
     return {
       updateShareCount: updateShareCount,
       getShareCount: getShareCount,
+      getShareTime: getShareTime,
       deleteShareCount: deleteShareCount,
       validateApp: validateApp,
       parseJwt: parseJwt,
       canViewPost: canViewPost,
       enablePostBtn: enablePostBtn,
       updateProgress: updateProgress,
+      isExpiredSession: isExpiredSession,
     };
   })(Model);
 
@@ -122,6 +134,7 @@ var VR_Share = (function () {
     };
 
     function runApp() {
+      if (service.isExpiredSession()) service.deleteShareCount();
       createStyles();
       createAppElements();
       createToaster();

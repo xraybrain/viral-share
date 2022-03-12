@@ -20,6 +20,8 @@ var VR_Share = (function () {
       maxShare: 5,
       isValid: false,
       postBtnText: "Go to post",
+      shareAlert:
+        'You must share this post to {maxShare} friends or groups in order to activate the "{post}" button below.',
     };
   })();
 
@@ -187,8 +189,13 @@ var VR_Share = (function () {
       progress.appendChild(progressText);
       progressBar.appendChild(progress);
       var panel = document.querySelector("#vr-share-panel");
+      var alert = createAlert(
+        model.shareAlert
+          .replace("{maxShare}", model.maxShare)
+          .replace("{post}", model.postBtnText)
+      );
       if (panel) {
-        appendChildren(panel, [shareBtnPanel, progressBar, postBtn]);
+        appendChildren(panel, [shareBtnPanel, progressBar, alert, postBtn]);
       }
 
       // Register events
@@ -200,12 +207,22 @@ var VR_Share = (function () {
       model.progress = progress;
       model.progressBar = progressBar;
       model.progressText = progressText;
+      model.alert = alert;
+    }
+
+    function createAlert(message) {
+      var id = "vr-alert-" + Date.now();
+      var alertPanel = document.createElement("div");
+      alertPanel.id = id;
+      alertPanel.innerHTML = message;
+      alertPanel.classList.add("vr-alert");
+      return alertPanel;
     }
 
     function createStyles() {
       var styleSheet = document.createElement("style");
       styleSheet.textContent =
-        ".vr-share-btn{outline:0; padding: 0.5rem 0.5rem; border: 0.1rem solid #eee; border-radius: 0.5em; font-weight: 600; cursor: pointer; background-color: orangered; color: #fff; user-select: none; transition: all 0.2s ease-in-out; font-size: 1rem;} .vr-share-btn:active, .vr-close:active, .vr-btn:active{box-shadow: 0 0.15em 0.1rem #333; transform: translateY(-0.15em); outline: 0;} .vr-share-btn:focus{outline: 0;} .vr-share-btn[disabled] {background-color: #f79786} .vr-share-btn svg{width: 1.2em; height: 1.2em; display: inline-block;} .vr-progress-bar{width: 100%; background-color: #f3f3f3; height: 1em; border-radius: 0.75rem; position: relative; overflow: hidden;} .vr-progress{width: 0%; height: 100%; position: absolute; background-color: #71d311; border-radius: 0.75rem; display: flex; align-items: center;} #vr-share-panel{position: relative; width: 60%; margin: 0% auto;} .vr-d-flex{position: relative; display: flex; -webkit-display: flex; ms-display: flexbox;} .vr-align-items-center{align-items: center !important;} .vr-justify-content-between{justify-content: space-between;} .vr-justify-content-center{justify-content: center;} .vr-btn-block{display: inline-block !important; width: 100%;} .vr-wa-btn {background-color: #25D366; color: #fff;} .vr-msg-btn{background-color: #00B2FF; color: #fff;} .vr-ml{margin-left: 0.75rem;} .vr-ml-1{margin-left: 0.4rem;} .vr-mr{margin-right: 0.75rem;} .vr-mb{margin-bottom: 0.75rem;} .vr-my{margin-top: 0.75rem; margin-bottom: 0.75rem;} .vr-mx-1{margin-left: 0.4rem; margin-right: 0.4rem;} .vr-my-1{margin-top: 0.4rem; margin-bottom: 0.4rem;} .vr-flex-wrap{flex-wrap: wrap;} .vr-toaster-panel{position: fixed; display: block; bottom: 0; left: 50%; transform: translateX(-50%); min-width: 8em; background-color: #333; color: #fff; margin: 0.33rem; border-radius: 0.75rem; box-shadow: 0 0 0.55rem #333; cursor: pointer; transition: all 0.3s ease-in-out;} .vr-toaster-panel:hover{box-shadow: 0 0 0.55rem #000} .vr-toaster-body {display: block; padding: 1rem; 0.33rem; text-align: center; font-size: 0.9rem;} .vr-toaster-panel.hide{transform: translateY(100px)} .vr-progress-text{text-align: center;display: inline-block; width: 100%; font-size: 0.75rem; padding: 0.rem;color: #333;}";
+        ".vr-share-btn{outline:0; padding: 0.5rem 0.5rem; border: 0.1rem solid #eee; border-radius: 0.5em; font-weight: 600; cursor: pointer; background-color: orangered; color: #fff; user-select: none; transition: all 0.2s ease-in-out; font-size: 1rem;} .vr-share-btn:active, .vr-close:active, .vr-btn:active{box-shadow: 0 0.15em 0.1rem #333; transform: translateY(-0.15em); outline: 0;} .vr-share-btn:focus{outline: 0;} .vr-share-btn[disabled] {background-color: #f79786} .vr-share-btn svg{width: 1.2em; height: 1.2em; display: inline-block;} .vr-progress-bar{width: 100%; background-color: #f3f3f3; height: 1em; border-radius: 0.75rem; position: relative; overflow: hidden;} .vr-progress{width: 0%; height: 100%; position: absolute; background-color: #71d311; border-radius: 0.75rem; display: flex; align-items: center;} #vr-share-panel{position: relative; width: 60%; margin: 0% auto;} .vr-d-flex{position: relative; display: flex; -webkit-display: flex; ms-display: flexbox;} .vr-align-items-center{align-items: center !important;} .vr-justify-content-between{justify-content: space-between;} .vr-justify-content-center{justify-content: center;} .vr-btn-block{display: inline-block !important; width: 100%;} .vr-wa-btn {background-color: #25D366; color: #fff;} .vr-wa-btn:active, .vr-wa-btn:focus{background-color: #25D366; color: #fff;} .vr-msg-btn{background-color: #00B2FF;} .vr-msg-btn:focus {background-color: #00B2FF} .vr-ml{margin-left: 0.75rem;} .vr-ml-1{margin-left: 0.4rem;} .vr-mr{margin-right: 0.75rem;} .vr-mb{margin-bottom: 0.75rem;} .vr-my{margin-top: 0.75rem; margin-bottom: 0.75rem;} .vr-mx-1{margin-left: 0.4rem; margin-right: 0.4rem;} .vr-my-1{margin-top: 0.4rem; margin-bottom: 0.4rem;} .vr-flex-wrap {flex-wrap: wrap;} .vr-toaster-panel{position: fixed; display: block; bottom: 0; left: 50%; transform: translateX(-50%); min-width: 8em; background-color: #333; color: #fff; margin: 0.33rem; border-radius: 0.75rem; box-shadow: 0 0 0.55rem #333; cursor: pointer; transition: all 0.3s ease-in-out;} .vr-toaster-panel:hover{box-shadow: 0 0 0.55rem #000} .vr-toaster-body {display: block; padding: 1rem; 0.33rem; text-align: center; font-size: 0.9rem;} .vr-toaster-panel.hide{transform: translateY(100px)} .vr-progress-text{text-align: center;display: inline-block; width: 100%; font-size: 0.75rem; padding: 0.rem;color: #333;} .vr-alert{padding: 0.75rem; margin: 0.5rem 0rem; background-color: #ffcf00; color: #2b2e30; border-radius: 0.5em; font-size: 0.9rem;}";
       var mediaQueries =
         "@media screen and (max-width: 411px){#vr-share-panel{width: 100%;}}";
       styleSheet.textContent += mediaQueries;
@@ -278,16 +295,14 @@ var VR_Share = (function () {
     }
 
     function shareOnWhatsApp() {
-      if (service.getShareCount() >= model.maxShare)
-        return showToaster("Share completed!!!", 2000);
+      if (service.canViewPost()) return showToaster("Share completed!!!", 2000);
       var url = model.shareURI.WAShare.replace("{text}", model.shareUrl);
       var tab = openWindow(url, "Share on Whatsapp", 400, 300);
       handleClose(tab);
     }
 
     function shareOnFBMessenger() {
-      if (service.getShareCount() >= model.maxShare)
-        return showToaster("Share completed!!!", 2000);
+      if (service.canViewPost()) return showToaster("Share completed!!!", 2000);
       var url = model.shareURI.FBMSGShare.replace("{link}", model.shareUrl);
       var tab = openWindow(url, "Share on Facebook Messenger", 400, 300);
       handleClose(tab);
